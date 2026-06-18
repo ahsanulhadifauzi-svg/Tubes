@@ -51,7 +51,7 @@ func tamservis(s *tabservis, y *int) { // sama kayak n
 	var x int
 	for x != -1 {
 		if s[*y].blnservis == 0 {
-			fmt.Print("Bulan Servis: ")
+			fmt.Print("Bulan Servis Selanjutnya: ")
 			fmt.Scan(&s[*y].blnservis)
 			fmt.Print("Jenis Kerusakan yang diterima: ")
 			fmt.Scan(&s[*y].jenisker)
@@ -245,7 +245,7 @@ func hapusdata(k *tabkendaraan, p *tabpemilik, s *tabservis, n, x *int) {
 }
 
 func statistikservis(s tabservis, y int) {
-	var i, j, max int
+	var i, j, max int // maxx mulai dari nol
 	var plser string // plser untuk nama kerusakan paling banyak
 	for i = 0; i < y; i++ {
 		switch s[i].blnservis {
@@ -341,25 +341,25 @@ func main() {
 			insertionsort(&k, y)
 		case 6:
 			fmt.Println() // supaya ada spasi untuk ngeliat
-			fmt.Print("Plat yang dicari: ")
+			fmt.Print("Plat yang dicari sedang dicari: ")
 			fmt.Scan(&cari)
 			tampung = binarysearch(k, y, cari)
 			if tampung != -1 {
-				fmt.Println("Data ditemukan")
+				fmt.Println("Data dapat ditemukan")
 				fmt.Printf("plat: %s merk: %s tahun produksi: %d\n", k[tampung].plat, k[tampung].merk, k[tampung].tahunpro)
 			} else {
-				fmt.Println("Data tidak ditemukan")
+				fmt.Println("Data tidak bisa ditemukan")
 			}
 		case 7:
 			fmt.Println()
-			fmt.Print("Plat yang dicari: ")
+			fmt.Print("Plat yang dicari sedang dicari: ")
 			fmt.Scan(&cari)
 			tampung = sequensialsearch(k, y, cari)
 			if tampung != -1 {
-				fmt.Println("Data ditemukan")
+				fmt.Println("Data dapat ditemukan")
 				fmt.Printf("plat: %s merk: %s tahun produksi: %d\n", k[tampung].plat, k[tampung].merk, k[tampung].tahunpro)
 			} else {
-				fmt.Println("Data tidak ditemukan")
+				fmt.Println("Data tidak bisa ditemukan")
 			}
 		case 8:
 			fmt.Println()
