@@ -24,24 +24,24 @@ func tampemilik(p *tabpemilik, n *int) { // n * supaya nilai n bisa ke func glob
 	fmt.Println("Silahkan masukan data pemilik kendaraan")
 	fmt.Print("ID Pemilik: ")
 	fmt.Scan(&p[*n].id)
-	fmt.Print("Nama: ")
+	fmt.Print("Nama pemilik: ")
 	fmt.Scan(&p[*n].nama)
-	fmt.Print("Alamat: ")
+	fmt.Print("Alamat pemilik: ")
 	fmt.Scan(&p[*n].alamat)
-	fmt.Print("No HP: ")
+	fmt.Print("No HP pemilik: ")
 	fmt.Scan(&p[*n].nohp)
 	*n = *n + 1
 }
 
 func tamkendaraan(k *tabkendaraan, x *int, s *tabservis) { // sama kayak n
 	fmt.Println("Silahkan masukan data kendaraan")
-	fmt.Print("Plat Nomor: ")
+	fmt.Print("Plat Nomor kendaraan: ")
 	fmt.Scan(&k[*x].plat)
-	fmt.Print("Merk: ")
+	fmt.Print("Merk kendaraan: ")
 	fmt.Scan(&k[*x].merk)
-	fmt.Print("Tahun Produksi: ")
+	fmt.Print("Tahun Produksi kendaraan: ")
 	fmt.Scan(&k[*x].tahunpro)
-	fmt.Print("Bulan Servis: ")
+	fmt.Print("Bulan Servis pertama kendaraan: ")
 	fmt.Scan(&s[*x].blnservis)
 	s[*x].jenisker = "servis pertama" //  servis pertama untuk blm ada kerusakan
 	*x = *x + 1
@@ -53,7 +53,7 @@ func tamservis(s *tabservis, y *int) { // sama kayak n
 		if s[*y].blnservis == 0 {
 			fmt.Print("Bulan Servis: ")
 			fmt.Scan(&s[*y].blnservis)
-			fmt.Print("Jenis Kerusakan: ")
+			fmt.Print("Jenis Kerusakan yang diterima: ")
 			fmt.Scan(&s[*y].jenisker)
 			x = -1
 		}
@@ -139,7 +139,7 @@ func sequensialsearch(k tabkendaraan, x int, cari string) int { // nyari plat no
 	return -1
 }
 
-func mengubahdata(k *tabkendaraan, p *tabpemilik, n, x int) {
+func mengubahdata(k *tabkendaraan, p *tabpemilik, s *tabservis, n, x int) {
 	var i, cari int         // z untuk menyimpan id yang dicari
 	var q, z string         // q untuk menyimpan plat nomor yang dicari
 	var ketemu bool = false // apakah data ditemukan atau gak dan supya hemat line
@@ -152,41 +152,49 @@ func mengubahdata(k *tabkendaraan, p *tabpemilik, n, x int) {
 		fmt.Scan(&z)
 		for i = 0; i < n; i++ {
 			if p[i].id == z {
-				fmt.Print("Nama: ")
+				fmt.Print("Nama pemilik yang baru: ")
 				fmt.Scan(&p[i].nama)
-				fmt.Print("Alamat: ")
+				fmt.Print("Alamat pemilik yang baru: ")
 				fmt.Scan(&p[i].alamat)
-				fmt.Print("No HP: ")
+				fmt.Print("No HP yang baru: ")
 				fmt.Scan(&p[i].nohp)
 				ketemu = true
 			}
 		}
 		if ketemu == true {
 			fmt.Println("Data pemilik berhasil diubah")
+			fmt.Println("Terima kasih")
 		} else {
 			fmt.Println("Data pemilik tidak ditemukan")
+			fmt.Println("Terima kasih")
 		}
 	} else if cari == 2 {
 		fmt.Print("Silahkan masukan plat nomor kendaraan yang ingin diubah: ")
 		fmt.Scan(&q)
 		for i = 0; i < x; i++ {
 			if k[i].plat == q {
-				fmt.Print("Merk: ")
+				fmt.Print("Plat nomor kendaraan yang baru: ")
+				fmt.Scan(&k[i].plat)
+				fmt.Print("Merk kendaraan yang baru: ")
 				fmt.Scan(&k[i].merk)
-				fmt.Print("Tahun Produksi: ")
+				fmt.Print("Tahun Produksi kendaraan yang baru: ")
 				fmt.Scan(&k[i].tahunpro)
+				fmt.Print("Bulan servis saat membeli yang baru: ")
+				fmt.Scan(&s[i].blnservis)
 				ketemu = true
 			}
 		}
 		if ketemu == true {
 			fmt.Println("Data kendaraan berhasil diubah")
+			fmt.Println("Terima kasih")
 		} else {
 			fmt.Println("Data kendaraan tidak ditemukan")
+			fmt.Println("Terima kasih")
 		}
 	}
 }
 
-func hapusdata(k *tabkendaraan, p *tabpemilik, n, x *int) {
+func hapusdata(k *tabkendaraan, p *tabpemilik, s *tabservis, n, x *int) {
 	var i, cari, j int
 	var q, z string
 	var ketemu bool = false
@@ -208,16 +216,19 @@ func hapusdata(k *tabkendaraan, p *tabpemilik, n, x *int) {
 		}
 		if ketemu == true {
 			fmt.Println("Data pemilik berhasil dihapus")
+			fmt.Println("Terima kasih")
 		} else {
 			fmt.Println("Data pemilik tidak ditemukan")
+			fmt.Println("Terima kasih")
 		}
 	} else if cari == 2 {
-		fmt.Print("Silahkan masukan kendaraan yang ingin dihapus dari data: ")
+		fmt.Print("Silahkan masukan plat kendaraan yang ingin dihapus dari data: ")
 		fmt.Scan(&q)
 		for i = 0; i < *x; i++ {
 			if k[i].plat == q {
 				for j = i; j < *x-1; j++ {
 					k[j] = k[j+1]
+					s[j] = s[j+1]
 				}
 				*x = *x - 1
 				ketemu = true
@@ -225,8 +236,10 @@ func hapusdata(k *tabkendaraan, p *tabpemilik, n, x *int) {
 		}
 		if ketemu == true {
 			fmt.Println("Data kendaraan berhasil dihapus")
+			fmt.Println("Terima kasih")
 		} else {
 			fmt.Println("Data kendaraan tidak ditemukan")
+			fmt.Println("Terima kasih")
 		}
 	}
 }
@@ -264,7 +277,7 @@ func statistikservis(s tabservis, y int) {
 	}
 
 	for i = 0; i <= 11; i++ {
-		fmt.Printf("Bulan %d: %d servis\n", i+1, s[i].jumlahsrvsbln) // jika sama maka yang keluar yang terakhir
+		fmt.Printf("Bulan %-7d: %-2d servis\n", i+1, s[i].jumlahsrvsbln) // jika sama maka yang keluar yang terakhir
 	}
 	for i = 0; i < y; i++ {
 		for j = 0; j < y; j++ {
@@ -350,10 +363,10 @@ func main() {
 			}
 		case 8:
 			fmt.Println()
-			mengubahdata(&k, &p, x, y)
+			mengubahdata(&k, &p, &s, x, y)
 		case 9:
 			fmt.Println()
-			hapusdata(&k, &p, &x, &y) // & supaya bisa mengubah semua data
+			hapusdata(&k, &p, &s, &x, &y) // & supaya bisa mengubah semua data
 		case 10:
 			fmt.Println()
 			fmt.Println("STATISTIK SERVIS AUTOCARE")
