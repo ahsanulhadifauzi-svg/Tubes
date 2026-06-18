@@ -13,7 +13,7 @@ type kendaraan struct {
 
 type servis struct {
 	blnservis, jumlahsrvsbln, jumlahker int
-	jenisker string
+	jenisker                            string
 }
 
 type tabpemilik [100]pemilik
@@ -61,12 +61,12 @@ func tamservis(s *tabservis, y *int) { // sama kayak n
 	}
 }
 
-func selectionsort(s *tabservis, y int) {
+func selectionsort(s *tabservis, y int) { // mengurutkan data dari bulan servis
 	var i, j int
 	var temp servis
 	for i = 0; i < y-1; i++ {
 		for j = i + 1; j < y; j++ {
-			if s[i].blnservis > s[j].blnservis {
+			if s[i].blnservis < s[j].blnservis { // ini deskending
 				temp = s[i]
 				s[i] = s[j]
 				s[j] = temp
@@ -80,11 +80,12 @@ func selectionsort(s *tabservis, y int) {
 	fmt.Println("+---------------------------------------------+")
 }
 
-func insertionsort(k *tabkendaraan, x int) {
+func insertionsort(k *tabkendaraan, x int) { // urutkan sesuai tahun produksi
 	var i, pass int
 	var temp kendaraan
 	for pass <= x-1 {
-		for i > 0 && k[i-1].tahunpro > k[i].tahunpro {
+		i = pass
+		for i > 0 && k[i-1].tahunpro > k[i].tahunpro { // ini ascending
 			temp = k[i]
 			k[i] = k[i-1]
 			k[i-1] = temp
@@ -99,7 +100,7 @@ func insertionsort(k *tabkendaraan, x int) {
 	fmt.Println("+---------------------------------------------+")
 }
 
-func binarysearch(k tabkendaraan, x int, cari string) int {
+func binarysearch(k tabkendaraan, x int, cari string) int { // nyari plat nomor
 	var i, mid, ri, le, j int // ri untuk  kanan,le untuk  kiri
 	var temp kendaraan
 
@@ -128,7 +129,7 @@ func binarysearch(k tabkendaraan, x int, cari string) int {
 	return -1
 }
 
-func sequensialsearch(k tabkendaraan, x int, cari string) int {
+func sequensialsearch(k tabkendaraan, x int, cari string) int { // nyari plat nomor
 	var i int
 	for i = 0; i < x; i++ {
 		if k[i].plat == cari {
@@ -141,7 +142,7 @@ func sequensialsearch(k tabkendaraan, x int, cari string) int {
 func mengubahdata(k *tabkendaraan, p *tabpemilik, n, x int) {
 	var i, cari int         // z untuk menyimpan id yang dicari
 	var q, z string         // q untuk menyimpan plat nomor yang dicari
-	var ketemu bool = false // apakah data ditemukan atau gak
+	var ketemu bool = false // apakah data ditemukan atau gak dan supya hemat line
 	fmt.Println("1.Ubah data pemilik")
 	fmt.Println("2.Ubah data kendaraan")
 	fmt.Print("pilih data yang ingin diubah: ")
@@ -168,7 +169,7 @@ func mengubahdata(k *tabkendaraan, p *tabpemilik, n, x int) {
 	} else if cari == 2 {
 		fmt.Print("Silahkan masukan plat nomor kendaraan yang ingin diubah: ")
 		fmt.Scan(&q)
-		for i = 0; i < x; i++ { // bisa langsung diubah gak perlu di kurang atau ditambah lagi
+		for i = 0; i < x; i++ {
 			if k[i].plat == q {
 				fmt.Print("Merk: ")
 				fmt.Scan(&k[i].merk)
@@ -196,9 +197,9 @@ func hapusdata(k *tabkendaraan, p *tabpemilik, n, x *int) {
 	if cari == 1 {
 		fmt.Print("Silahkan masukan ID pemilik yang ingin dihapus: ")
 		fmt.Scan(&z)
-		for i = 0; i < *n; i++ { // for untuk melihat yang dicari
+		for i = 0; i < *n; i++ {
 			if p[i].id == z {
-				for j = i; j < *n-1; j++ { // ini supaya saat menghapus data dapat digeser sehingga gak bolong datanya
+				for j = i; j < *n-1; j++ {
 					p[j] = p[j+1]
 				}
 				*n = *n - 1
@@ -278,7 +279,7 @@ func statistikservis(s tabservis, y int) {
 			plser = s[i].jenisker
 		}
 	}
-	fmt.Printf("%s dengan jumlah kerusakan sebanyak %d\n", plser, max) // untuk mengeliat jumlah terbanyak kerusakan 
+	fmt.Printf("%s dengan jumlah kerusakan sebanyak %d\n", plser, max) // untuk mengeliat jumlah terbanyak kerusakan
 }
 
 func main() {
@@ -287,10 +288,10 @@ func main() {
 	var s tabservis
 	var x, y, z, a, tampung int // tampung adalah untuk menampung binary search dan sequential search
 	var cari string
-	a = -1
+	a = -1 // supaya gak masuk langsung ke piihan
 	fmt.Println()
 	fmt.Println("Selamat datang di autocare")
-	for a != 0 {
+	for a != 0 { // while untuk supaya si user tidak langsung keluar tapi tetap dalam pilihan sampai si user memilih 0
 		fmt.Println()
 		fmt.Println("Silahkan pilih menu yang tersedia")
 		fmt.Println("1.Tambah data pemilik")
@@ -318,11 +319,15 @@ func main() {
 			fmt.Println("Silahkan masukan data servis")
 			tamservis(&s, &z)
 		case 4:
-			selectionsort(&s, z)
+			if z == 0 {
+				selectionsort(&s, y)
+			} else {
+				selectionsort(&s, z)
+			}
 		case 5:
 			insertionsort(&k, y)
 		case 6:
-			fmt.Println() // supaya ada spasi untuk ngeliat 
+			fmt.Println() // supaya ada spasi untuk ngeliat
 			fmt.Print("Plat yang dicari: ")
 			fmt.Scan(&cari)
 			tampung = binarysearch(k, y, cari)
@@ -352,7 +357,7 @@ func main() {
 		case 10:
 			fmt.Println()
 			fmt.Println("STATISTIK SERVIS AUTOCARE")
-			statistikservis(s, z) 
+			statistikservis(s, z)
 		case 0:
 			fmt.Println("Terima kasih telah menggunakan autocare")
 		}
